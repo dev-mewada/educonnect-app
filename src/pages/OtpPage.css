@@ -1,0 +1,14 @@
+/* ==========================================================================
+   EDUCONNECT PRO - OTP VERIFICATION STYLES
+   ========================================================================== */
+
+@import './ForgotPasswordPage.css';
+
+.countdown-text {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.countdown-text strong {
+  color: #818cf8;
+}
