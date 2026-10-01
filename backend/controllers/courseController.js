@@ -12,8 +12,8 @@ exports.getCourses = async (req, res) => {
 
     let query = `
       SELECT c.*, 
-             u.name AS instructor_name, 
-             u.email AS instructor_email,
+             MAX(u.name) AS instructor_name, 
+             MAX(u.email) AS instructor_email,
              COUNT(DISTINCT e.id) AS total_students,
              COALESCE(ROUND(AVG(r.rating), 1), 5.0) AS avg_rating,
              COUNT(DISTINCT r.id) AS reviews_count
@@ -96,9 +96,9 @@ exports.getCourseById = async (req, res) => {
 
     const [rows] = await db.query(
       `SELECT c.*, 
-              u.name AS instructor_name, 
-              u.email AS instructor_email,
-              u.profile_photo AS instructor_photo,
+              MAX(u.name) AS instructor_name, 
+              MAX(u.email) AS instructor_email,
+              MAX(u.profile_photo) AS instructor_photo,
               COUNT(DISTINCT e.id) AS total_students,
               COALESCE(ROUND(AVG(r.rating), 1), 5.0) AS avg_rating,
               COUNT(DISTINCT r.id) AS reviews_count
@@ -254,7 +254,7 @@ exports.updateCourse = async (req, res) => {
     );
 
     const [updated] = await db.query(
-      `SELECT c.*, u.name AS instructor_name, COUNT(DISTINCT e.id) AS total_students
+      `SELECT c.*, MAX(u.name) AS instructor_name, COUNT(DISTINCT e.id) AS total_students
        FROM courses c 
        LEFT JOIN users u ON c.teacher_id = u.id 
        LEFT JOIN enrollments e ON c.id = e.course_id
