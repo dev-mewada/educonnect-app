@@ -23,9 +23,9 @@ exports.getLiveClasses = async (req, res) => {
 
     let query = `
       SELECT lc.*, 
-             c.title AS course_title, 
-             u.name AS teacher_name,
-             u.email AS teacher_email,
+             MAX(c.title) AS course_title, 
+             MAX(u.name) AS teacher_name,
+             MAX(u.email) AS teacher_email,
              COUNT(DISTINCT a.id) AS real_attendees_count
       FROM live_classes lc
       JOIN courses c ON lc.course_id = c.id
@@ -105,9 +105,9 @@ exports.getLiveClassById = async (req, res) => {
 
     const [rows] = await db.query(
       `SELECT lc.*, 
-              c.title AS course_title, 
-              u.name AS teacher_name, 
-              u.email AS teacher_email,
+              MAX(c.title) AS course_title, 
+              MAX(u.name) AS teacher_name, 
+              MAX(u.email) AS teacher_email,
               COUNT(DISTINCT a.id) AS real_attendees_count
        FROM live_classes lc
        JOIN courses c ON lc.course_id = c.id
